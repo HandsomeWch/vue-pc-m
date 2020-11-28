@@ -6,7 +6,8 @@ import Login from '../views/Login'
 import Register from '../views/Register'
 import Search from '../views/Search'
 
-Vue.use(VueRouter)
+//使用router
+Vue.use(VueRouter);
 
 export default new VueRouter({
     routes: [{
@@ -15,15 +16,24 @@ export default new VueRouter({
         },
         {
             path: '/login',
-            component: Login
+            component: Login,
+            // 当组件加载显示时，meta中的参数会传到$route中
+            // 当组件不加载显示时，meta中的参数不会传
+            meta: {
+                isFooterHide: true,
+            }
         },
         {
             path: '/register',
-            component: Register
+            component: Register,
+            meta: {
+                isFooterHide: true,
+            }
         },
         {
-            path: '/search',
-            component: Search
+            name: "search",
+            path: '/search/:searchText?',
+            component: Search,
         },
     ]
 })
