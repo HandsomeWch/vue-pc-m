@@ -4,10 +4,9 @@
 
 <script>
 export default {
-  name: 'Register',
-}
+  name: "Register",
+};
 </script>
 
 <style lang="less" scoped>
-
 </style>
