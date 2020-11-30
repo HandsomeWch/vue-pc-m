@@ -165,7 +165,7 @@ export default {
       z-index: 999;
       // 控制显示隐藏过渡效果
       &.search-enter-active {
-        transition: height 0.5s;
+        transition: height 1s;
         overflow: hidden;
       }
       &.search-enter {
