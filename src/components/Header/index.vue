@@ -76,6 +76,12 @@ export default {
           searchText,
         };
       }
+
+      //添加query参数
+      const { categoryName } = this.$route.query;
+      if (categoryName) {
+        location.query = this.$route.query;
+      }
       this.$router.push(location);
     },
   },
