@@ -3,7 +3,7 @@
     <TypeNav />
     <div class="main">
       <div class="py-container">
-        <!--bread-->
+        <!--已选商品的类别-->
         <div class="bread">
           <ul class="fl sui-breadcrumb">
             <li>
@@ -12,20 +12,31 @@
           </ul>
           <ul class="fl sui-tag">
             <li class="with-x" v-show="options.keyword" @click="delKeyword">
-              {{ options.keyword }}<i>x</i>
+              关键词：{{ options.keyword }}<i>x</i>
             </li>
             <li
               class="with-x"
               v-show="options.categoryName"
               @click="delCategory"
             >
-              {{ options.categoryName }}<i>x</i>
+              分类名称：{{ options.categoryName }}<i>x</i>
+            </li>
+            <li class="with-x" v-show="options.trademark" @click="delTrademark">
+              品牌: {{ options.trademark.split(":")[1] }}<i>×</i>
+            </li>
+            <li
+              class="with-x"
+              v-for="(prop, index) in options.props"
+              :key="prop"
+              @click="delProp(index)"
+            >
+              {{ prop.split(":")[2] }}:{{ prop.split(":")[1] }}<i>x</i>
             </li>
           </ul>
         </div>
 
         <!--选择商品的类别-->
-        <SearchSelector />
+        <SearchSelector :addTrademark="addTrademark" @add-prop="addProp" />
 
         <!--商品列表导航-->
         <div class="details clearfix">
@@ -194,9 +205,11 @@ export default {
       //清除options
       this.options.keyword = "";
       //清除路径params
+
       //this.$route.params = {}
       this.$bus.$emit("clearKeyword");
-      this.$router.push({
+      //$route上面的属性是只读属性，不能修改
+      this.$router.replace({
         name: "search",
         query: this.$route.query,
       });
@@ -212,6 +225,26 @@ export default {
         name: "search",
         params: this.$route.params,
       });
+    },
+    //添加品牌并更新数据
+    addTrademark(trademark) {
+      this.options.trademark = trademark;
+      this.updateProductList();
+    },
+    //删除品牌数据
+    delTrademark() {
+      this.options.trademark = " ";
+      this.updateProductList();
+    },
+    // 添加品牌属性并更新数据
+    addProp(prop) {
+      this.options.props.push(prop);
+      this.updateProductList();
+    },
+    //删除品牌数据
+    delProp(index) {
+      this.options.props.splice(index, 1);
+      this.updateProductList();
     },
   },
   mounted() {
