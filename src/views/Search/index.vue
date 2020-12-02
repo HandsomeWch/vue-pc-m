@@ -43,23 +43,55 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li
+                  :class="{ active: options.order.indexOf('1') > -1 }"
+                  @click="setOrder('1')"
+                >
+                  <a
+                    >综合
+                    <i
+                      :class="{
+                        iconfont: true,
+                        'icon-direction-down': isAllDown,
+                        'icon-direction-up': !isAllDown,
+                      }"
+                    ></i
+                  ></a>
                 </li>
                 <li>
-                  <a href="#">销量</a>
+                  <a>销量</a>
                 </li>
                 <li>
-                  <a href="#">新品</a>
+                  <a>新品</a>
                 </li>
                 <li>
-                  <a href="#">评价</a>
+                  <a>评价</a>
                 </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li
+                  :class="{ active: options.order.indexOf('2') > -1 }"
+                  @click="setOrder('2')"
+                >
+                  <a
+                    >价格
+                    <span>
+                      <i
+                        :class="{
+                          iconfont: true,
+                          'icon-arrow-up-filling': true,
+                          deactive:
+                            options.order.indexOf('2') > -1 && isPriceDown,
+                        }"
+                      ></i>
+                      <i
+                        :class="{
+                          iconfont: true,
+                          'icon-arrow-down-filling': true,
+                          deactive:
+                            options.order.indexOf('2') > -1 && !isPriceDown,
+                        }"
+                      ></i>
+                    </span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -163,6 +195,8 @@ export default {
         props: [], // 商品属性
         trademark: "", // 品牌
       },
+      isAllDown: true, //综合排序图标
+      isPriceDown: false, //价格降序
     };
   },
   watch: {
@@ -245,6 +279,26 @@ export default {
     delProp(index) {
       this.options.props.splice(index, 1);
       this.updateProductList();
+    },
+    //设置排序方式
+    setOrder(order) {
+      let [orderNum, orderType] = this.options.order.split(":");
+
+      //点击第一次、不改变图标
+      //点击第二次 ：改变图标
+      if (orderNum === order) {
+        if (order === "1") {
+          this.isAllDown = !this.isAllDown;
+        } else {
+          this.isPriceDown = !this.isPriceDown;
+        }
+        orderType = orderType === "desc" ? "asc" : "desc";
+      } else {
+        this.isPriceDown = false;
+        this.isAllDown = true;
+      }
+
+      this.options.order = `${order}:${orderType}`;
     },
   },
   mounted() {
@@ -359,11 +413,28 @@ export default {
               line-height: 18px;
 
               a {
-                display: block;
+                display: flex;
+                justify-content: space-around;
+                align-content: center;
                 cursor: pointer;
-                padding: 11px 15px;
+                padding: 11px 7px;
                 color: #777;
                 text-decoration: none;
+
+                i {
+                  padding-left: 5px;
+                }
+                span {
+                  display: flex;
+                  flex-direction: column;
+                  line-height: 8px;
+                  i {
+                    font-size: 12px;
+                    &.deactive {
+                      color: rgba(255, 255, 255, 0.5);
+                    }
+                  }
+                }
               }
 
               &.active {
