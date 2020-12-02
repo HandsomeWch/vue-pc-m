@@ -15,6 +15,10 @@ import './mock/mockServer'
 Vue.config.productionTip = false;
 
 new Vue({
+    beforeCreate() {
+        //初始化全局事件总线对象
+        Vue.prototype.$bus = this;
+    },
     render: h => h(App),
     router,
     store,

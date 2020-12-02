@@ -11,10 +11,16 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-show="options.keyword" @click="delKeyword">
+              {{ options.keyword }}<i>x</i>
+            </li>
+            <li
+              class="with-x"
+              v-show="options.categoryName"
+              @click="delCategory"
+            >
+              {{ options.categoryName }}<i>x</i>
+            </li>
           </ul>
         </div>
 
@@ -149,6 +155,7 @@ export default {
     };
   },
   watch: {
+    // 监视$route的变化：监视地址的变化
     $route() {
       this.updateProductList();
     },
@@ -158,6 +165,7 @@ export default {
   },
   methods: {
     ...mapActions(["getProductList"]),
+    //更新商品列表
     updateProductList() {
       // 一上来发送请求会携带参数
       // 解构赋值提取 params 中 searchText 属性
@@ -178,7 +186,32 @@ export default {
         category2Id,
         category3Id,
       };
+      this.options = options;
       this.getProductList(options);
+    },
+    //删除关键字
+    delKeyword() {
+      //清除options
+      this.options.keyword = "";
+      //清除路径params
+      //this.$route.params = {}
+      this.$bus.$emit("clearKeyword");
+      this.$router.push({
+        name: "search",
+        query: this.$route.query,
+      });
+    },
+    //删除分类
+    delCategory() {
+      this.options.categoryName = "";
+      this.options.category1Id = "";
+      this.options.category2Id = "";
+      this.options.category3Id = "";
+
+      this.$router.replace({
+        name: "search",
+        params: this.$route.params,
+      });
     },
   },
   mounted() {
