@@ -113,10 +113,18 @@ export default {
           searchText,
         };
       }
-      this.$router.push(location);
+      // this.$route.path 路径路由
+      // this.$route.name 命名路由名称
+      if (this.$route.name === "search") {
+        this.$router.replace(location);
+      } else {
+        this.$router.push(location);
+      }
     },
   },
   mounted() {
+    // 在请求之前先判断vuex有没有数据
+    if (this.categoryList.length) return;
     //调用vuex的action函数
     this.getCategoryList();
   },
