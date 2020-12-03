@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import {
-    Button
+    Button,
+    Pagination
 } from 'element-ui'
 
 Vue.use(Button);
+Vue.use(Pagination);
