@@ -139,7 +139,14 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <el-pagination
+          <Pagination
+            @current-change="handleCurrentChange"
+            :current-page="options.pageNo"
+            :pager-count="7"
+            :page-size="5"
+            :total="total"
+          />
+          <!-- <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :pager-count="options.pageNo"
@@ -148,8 +155,9 @@
             background
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
-          >
-          </el-pagination>
+          > 
+           </el-pagination>
+          -->
         </div>
       </div>
     </div>
@@ -160,7 +168,7 @@
 import { mapGetters, mapActions } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 import TypeNav from "@comps/TypeNav";
-
+import Pagination from "@comps/Pagination";
 export default {
   name: "Search",
   data() {
@@ -188,7 +196,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["goodsList","total"]),
+    ...mapGetters(["goodsList", "total"]),
   },
   methods: {
     ...mapActions(["getProductList"]),
@@ -250,7 +258,7 @@ export default {
     },
     //删除品牌数据
     delTrademark() {
-      this.options.trademark = " ";
+      this.options.trademark = "";
       this.updateProductList();
     },
     // 添加品牌属性并更新数据
@@ -290,21 +298,29 @@ export default {
       this.updateProductList();
     },
     //当每页条数发生变化触发
-    handleSizeChange(pageSize){
+    handleSizeChange(pageSize) {
       this.options.pageSize = pageSize;
       this.updateProductList();
     },
     //当页码发生变化触发
-    handleCurrentChange(pageNo){
-      this.updateProductList(pageNo)
-    }
+    handleCurrentChange(pageNo) {
+      this.updateProductList(pageNo);
+    },
+    //判断order以xxx开头
+    isOrder(order) {
+      return this.options.order.index(order) > -1;
+    },
   },
   mounted() {
+    // 一上来发送请求会携带参数
+    // 解构赋值提取 params 中 searchText 属性
+    // 将 searchText 重命名为 keyword
     this.updateProductList();
   },
   components: {
     SearchSelector,
     TypeNav,
+    Pagination,
   },
 };
 </script>
