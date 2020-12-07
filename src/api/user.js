@@ -12,5 +12,25 @@ export const reqLogin = (phone, password) => {
             phone,
             password
         }
+        // params: {}, // 放置查询字符串参数，通常get请求
     })
 };
+
+// export const reqRegister = ({phone, password, code}) => {}
+// 注册
+
+export const reqRegister = ({
+    phone,
+    password,
+    code
+}) => {
+    return request({
+        method: "POST",
+        url: "/user/passport/register",
+        data: {
+            phone,
+            password,
+            code,
+        }
+    })
+}
