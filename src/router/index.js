@@ -6,6 +6,9 @@ import Login from '../views/Login'
 import Register from '../views/Register'
 import Search from '../views/Search'
 import Detail from '../views/Detail'
+import AddCartSuccess from '../views/AddCartSuccess'
+import ShopCart from '../views/ShopCart'
+
 //重写push和replace方法
 //目的：为了让编程式导航重复点击时不报错~
 const push = VueRouter.prototype.push;
@@ -65,6 +68,20 @@ export default new VueRouter({
             //？：代表params参数是可选的
             path: '/detail/:id',
             component: Detail,
+        },
+        {
+            //命名路由
+            name: "addcartsuccess",
+            //？：代表params参数是可选的
+            path: '/addcartsuccess',
+            component: AddCartSuccess,
+        },
+        {
+            //命名路由
+            name: "shopcart",
+            //？：代表params参数是可选的
+            path: '/shopcart',
+            component: ShopCart,
         },
     ],
     //每次切换路由页面滚动条位置都是最顶上位置

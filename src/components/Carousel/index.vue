@@ -20,7 +20,7 @@
 
 <script>
 import Swiper, { Navigation, Pagination, Autoplay } from "swiper";
-import "swiper/swiper-bundle.min.css";
+
 Swiper.use([Navigation, Pagination, Autoplay]);
 
 export default {
@@ -42,18 +42,18 @@ export default {
   methods: {
     initSwiper() {
       this.swiper = new Swiper(this.$refs.swiper, {
-        loop: true,// 循环模式选项
+        loop: true, // 循环模式选项
         // 自动轮播
         autoplay: {
-          delay: 2000,// 轮播间隔时间
-          disableOnInteraction: false,// 当用户点击下一页时，仍会开启自动轮播
+          delay: 2000, // 轮播间隔时间
+          disableOnInteraction: false, // 当用户点击下一页时，仍会开启自动轮播
         },
         // 如果需要分页器
         pagination: {
           el: ".swiper-pagination",
           clickable: true,
         },
-         // 如果需要前进后退按钮
+        // 如果需要前进后退按钮
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
